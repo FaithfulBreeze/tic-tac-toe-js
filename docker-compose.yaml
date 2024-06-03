@@ -1,0 +1,8 @@
+services:
+  api:
+    build: ./api
+    container_name: api
+    volumes:
+     - ./api:/app
+    ports:
+      - 3030:3030
