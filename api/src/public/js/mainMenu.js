@@ -9,7 +9,8 @@ function verifyField(field){
     return field.value != false
 }
 
-function createRoom(){
+function createRoom(e){
+    e.preventDefault()
     if(verifyField(username)){
         socket.emit('createRoom', username.value)
     }else{
@@ -17,11 +18,14 @@ function createRoom(){
     }
 }
 
-function joinRoom(){
+function joinRoom(e){
+    e.preventDefault()
     if(verifyField(username) && verifyField(room)){
         socket.emit('joinRoom', {
             username: username.value,
             room: room.value
         })
+    }else{
+        alert('Please fill out the fields.')
     }
 }

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../css/output.css">
+    <title>#id#</title>
+</head>
+<body class="p-8 grid place-items-center min-h-screen bg-gradient-to-b from-emerald-300 to-emerald-800">
+    <main class="bg-slate-200 rounded-lg p-4">
+        <div class="grid grid-cols-3 grid-rows-3 gap-5">
+            <div id="1" class="bg-slate-500 rounded-md hover:scale-105 flex items-center justify-center h-32 w-32"></div>
+            <div id="2" class="bg-slate-500 rounded-md hover:scale-105 flex items-center justify-center h-32 w-32"></div>
+            <div id="3" class="bg-slate-500 rounded-md hover:scale-105 flex items-center justify-center h-32 w-32"></div>
+            <div id="4" class="bg-slate-500 rounded-md hover:scale-105 flex items-center justify-center h-32 w-32"></div>
+            <div id="5" class="bg-slate-500 rounded-md hover:scale-105 flex items-center justify-center h-32 w-32"></div>
+            <div id="6" class="bg-slate-500 rounded-md hover:scale-105 flex items-center justify-center h-32 w-32"></div>
+            <div id="7" class="bg-slate-500 rounded-md hover:scale-105 flex items-center justify-center h-32 w-32"></div>
+            <div id="8" class="bg-slate-500 rounded-md hover:scale-105 flex items-center justify-center h-32 w-32"></div>
+            <div id="9" class="bg-slate-500 rounded-md hover:scale-105 flex items-center justify-center h-32 w-32"></div>
+        </div>
+    </main>
+    <button id="copyToClipboard" onclick="copyToClipboard()" class="bg-slate-200 p-1 rounded-md hover:bg-slate-300" title="Click to copy">#id#</button>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script type="module" src="../../js/socket.js"></script>
+    <script>
+        function copyToClipboard(){
+            const ID = document.querySelector('#copyToClipboard').textContent
+            navigator.clipboard.writeText(ID)
+        }
+    </script>
+</body>
+</html>
