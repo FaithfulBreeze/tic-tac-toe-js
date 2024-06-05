@@ -1,5 +1,4 @@
 import socket from './socket.js'
-console.log(socket)
 const username = document.querySelector('#username')
 const room = document.querySelector('#room')
 const joinButton = document.querySelector('#joinButton').addEventListener('click', joinRoom)
@@ -12,6 +11,7 @@ function verifyField(field){
 function createRoom(e){
     e.preventDefault()
     if(verifyField(username)){
+        localStorage.setItem('username', username.value)
         socket.emit('createRoom', username.value)
     }else{
         alert('Username field is empty!')
@@ -21,10 +21,8 @@ function createRoom(e){
 function joinRoom(e){
     e.preventDefault()
     if(verifyField(username) && verifyField(room)){
-        socket.emit('joinRoom', {
-            username: username.value,
-            room: room.value
-        })
+        localStorage.setItem('username', username.value)
+        socket.emit('joinRoom', room.value)
     }else{
         alert('Please fill out the fields.')
     }

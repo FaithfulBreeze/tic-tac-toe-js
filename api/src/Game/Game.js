@@ -2,15 +2,50 @@ const fs = require('fs').promises
 const { join } = require('path')
 
 class Game{
-    constructor(roomID, username){
+    constructor(roomID, owner){
         this.roomID = roomID
-        this.owner = username
         this.playerCount = 0
+        this.gameOwner = owner
         this.isRoomFull = false
         this.gameLifeTime = this.gameLifeTimeout()
+        this.houses = []
+        this.player1 = {}
+        this.player2 = {}
+    }
+
+    renderGame(data){
+        this.resetGameLifeTime()
+        this.houses = data
+    }
+
+    setPlayer1(playerName, socketID){
+        this.player1.playerName = playerName
+        this.player1.socketID = socketID
+    }
+
+    setPlayer2(playerName, socketID){
+        this.player2.playerName = playerName
+        this.player2.socketID = socketID
+    }
+
+    getPlayer1(){
+        return this.player1
+    }
+
+    getPlayer2(){
+        return this.player2
+    }
+
+    getHouses(){
+        return this.houses
+    }
+
+    getOwner(){
+        return this.gameOwner
     }
 
     resetGameLifeTime(){
+        clearTimeout(this.gameLifeTime)
         this.gameLifeTime = this.gameLifeTimeout()
     }
 
