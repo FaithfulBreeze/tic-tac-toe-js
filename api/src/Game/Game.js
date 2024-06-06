@@ -13,9 +13,50 @@ class Game{
         this.player2 = {}
     }
 
-    renderGame(data){
+    renderGame(house){
         this.resetGameLifeTime()
-        this.houses = data
+        this.houses.push(house)
+        for(let house of this.houses){
+            if(this.checkHousesMatch(house)){
+                return { win: true, winner: house.owner }
+            }else{
+                return { win: false }
+            }
+        }
+    }
+
+    checkHousesMatch(requestedHouse){
+        let match = false
+        const { index } = requestedHouse
+        const middleHouses = [1, 3, 4, 5, 7]
+        const ownerHousesIndexes = []
+        for(let house of this.houses){
+            if(house.owner == requestedHouse.owner){
+                ownerHousesIndexes.push(house.index)
+            }
+        }
+        for(let i = 1 ; i <= 4 ; i++){
+            if(middleHouses.includes(index)){
+                const doesMatchPlus = ownerHousesIndexes.includes(index + i)
+                const doesMatchMinus = ownerHousesIndexes.includes(index - i)
+                if(doesMatchMinus && doesMatchPlus){
+                    match = true
+                }
+            }else{
+                if(index == 0 || index == 2){
+                    const doesMatchOne = ownerHousesIndexes.includes(index + i)
+                    const doesMatchTwo = ownerHousesIndexes.includes(index + i + i)
+                    if(doesMatchOne && doesMatchTwo)
+                        match = true
+                }else{
+                    const doesMatchOne = ownerHousesIndexes.includes(index - i)
+                    const doesMatchTwo = ownerHousesIndexes.includes(index - i - i)
+                    if(doesMatchOne && doesMatchTwo)
+                        match = true
+                }
+            }
+        }
+        return match
     }
 
     setPlayer1(playerName, socketID){
@@ -28,12 +69,12 @@ class Game{
         this.player2.socketID = socketID
     }
 
-    getPlayer1(){
-        return this.player1
-    }
-
     getPlayer2(){
         return this.player2
+    }
+
+    getPlayer1(){
+        return this.player1
     }
 
     getHouses(){

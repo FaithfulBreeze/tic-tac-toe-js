@@ -7,12 +7,12 @@
     <title>#id#</title>
 </head>
 <body class="p-8 grid place-items-center min-h-screen bg-gradient-to-b from-emerald-300 to-emerald-800">
-    <div id="waitingScreen" class="flex flex-col justify-center items-center min-h-screen min-w-full text-xl bg-slate-200 rounded-md">
+    <div id="waitingScreen" class="flex flex-col justify-center items-center py-10 min-w-full text-xl bg-slate-200 rounded-md">
         <p id="player1NameDisplay">❌ - Player1: </p>
         <p id="player2NameDisplay">⭕ - Waiting for Player2...</p>
     </div>
     <br>
-    <main id="gamePannel" class="text-2xl bg-slate-200 rounded-lg p-4 hidden">
+    <main id="gamePannel" class="text-4xl bg-slate-200 rounded-lg p-4 hidden">
         <div class="grid grid-cols-3 grid-rows-3 gap-5">
             <div id="house-0" class="bg-slate-500 rounded-md hover:scale-105 flex items-center justify-center h-32 w-32"></div>
             <div id="house-1" class="bg-slate-500 rounded-md hover:scale-105 flex items-center justify-center h-32 w-32"></div>
@@ -33,7 +33,6 @@
         function copyToClipboard(){
             const ID = document.querySelector('#copyToClipboard').textContent
             navigator.clipboard.writeText(ID)
-            alert('roomID is now on your clipboard!')
         }
     </script>
 </body>

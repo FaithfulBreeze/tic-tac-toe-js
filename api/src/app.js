@@ -28,9 +28,12 @@ io.on('connection', socket =>{
     })
 
     socket.on('renderGame', socketRequest =>{
-        const { houses, roomID } = socketRequest
+        const { house, roomID } = socketRequest
         const gameInstance = getGameInstance(roomID)
-        gameInstance.renderGame(houses)
+        const { win, winner } = gameInstance.renderGame(house)
+        if(win){
+            io.to(roomID).emit('userWin', winner)
+        }
         io.to(roomID).emit('updateGamePannel', gameInstance.getHouses())
     })
 

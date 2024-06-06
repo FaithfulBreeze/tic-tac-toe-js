@@ -6,31 +6,40 @@ const player1NameDisplay = document.querySelector('#player1NameDisplay')
 const player2NameDisplay = document.querySelector('#player2NameDisplay')
 socket.username = localStorage.getItem('username')
 const houses = []
+const htmlHouseElements = []
 
 for(let i = 0 ; i<=8 ; i++){
     const house = document.querySelector(`#house-${i}`)
     house.addEventListener('click', takeHouse)
-    house.index = i
-    houses[i] = house
+    htmlHouseElements[i] = house
+    houses[i] = {
+        index: i,
+        marked: false,
+        owner: null
+    }
 }
 
 function takeHouse(event){
     const houseID = event.srcElement.id.split('-')[1]
-    const { house, available } = houseVerifier(houseID)
-    if(available){
-        house.classList += ' marked'
-        houses[houseID].marked = true
-        houses[houseID].owner = socket.id
-        houses[houseID].houseIcon = socket.houseIcon
-        socket.emit('renderGame', { houses, roomID })
+    const houseStatus = houseVerifier(houseID)
+    if(houseStatus.available){
+        const house = houses[houseID]
+        house.marked = true
+        house.owner = socket.id
+        house.houseIcon = socket.houseIcon
+        socket.emit('renderGame', { house, roomID })
+    }else{
+        alert('This house is already taken!')
     }
 }
 
 function houseVerifier(houseID){
     const house = houses[houseID]
-    if(!house.classList.toString().includes('marked'))
-        return { available: true, house }
-    return { available: false, house: undefined }
+    if(!house.marked){
+        return { available: true }
+    }else{
+        return { available: false }
+    }
 }
 
 function startGame(){
@@ -40,13 +49,11 @@ function startGame(){
     }, 3000)
 }
 
-socket.on('updateGamePannel', housesToRender =>{
-    for(let house of housesToRender){
-        if(house.marked){
-            const {index, owner, houseIcon} = house
-            const houseHtmlElement = houses[index]
-            houseHtmlElement.innerText = houseIcon
-        }
+socket.on('updateGamePannel', housesFromRender =>{
+    for(let house of housesFromRender){
+        const htmlHouseElement = htmlHouseElements[house.index]
+        htmlHouseElement.innerText = house.houseIcon
+        houses[house.index] = house
     }
 })
 
@@ -58,6 +65,11 @@ socket.on('joinedRoom',  (gameOwner, player2Username) =>{
         startGame()
     }
 
+})
+
+socket.on('userWin', (winner) =>{
+    alert(`${winner} won the Tic Tac Toe!`)
+    window.location.href = '/'
 })
 
 socket.emit('joinGameRoom', { roomID, username : socket.username })
