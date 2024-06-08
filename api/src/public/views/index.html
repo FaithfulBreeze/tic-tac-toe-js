@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/output.css">
+    <title>Tic-Tac-Toe-JS</title>
+</head>
+<body class="lg:px-8 grid place-items-center min-h-screen bg-gradient-to-b from-emerald-300 to-emerald-800">
+    <main>
+        <div class="bg-gradient-to-b from-slate-50 to-slate-200 text-black p-3 lg:p-8 rounded-lg">
+            <h1 class="text-center text-2xl lg:text-7xl">Welcome to <span class="text-nowrap">Tic-Tac-Toe-JS</span></h1>
+            <br>
+            <form action="" class="bg-neutral-500 p-3 lg:p-8 flex flex-col text-white text-md lg:text-xl rounded-md">
+                <label for="username">Username:</label>
+                <input id="username" type="text" class="p-1 rounded-md text-black" name="username"><br>
+                <label for="room">Join room:</label>
+                <input id="room" type="text" class="p-1 rounded-md text-black" name="room"><br>
+                <button id="joinButton" class="bg-slate-200 hover:bg-slate-300 transition-all hover:text-emerald-600 rounded-md font-bold text-emerald-800 p-1">Join Room</button><br>
+                <button id="createButton" class="bg-slate-200 hover:bg-slate-300 transition-all hover:text-emerald-600 rounded-md font-bold text-emerald-800 p-1">Create Room</button>
+            </form>
+        </div>
+    </main>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script type="module" src="js/mainMenu.js"></script>
+    <script type="module" src="js/socket.js"></script>
+    <script>
+        const form = document.querySelector('form')
+        form.addEventListener('submit', e =>{
+            e.preventDefault()
+        })
+    </script>
+</body>
+</html>
