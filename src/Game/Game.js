@@ -1,5 +1,6 @@
 const fs = require('fs').promises
 const { join } = require('path')
+const gameInstances = require('../app')
 
 class Game{
     constructor(roomID, owner){
@@ -38,32 +39,38 @@ class Game{
 
     checkHousesMatch(requestedHouse){
         let match = false
+        const gridHouses = [
+            [1, 3], [2, 3], [3,3],
+            [1, 2], [2, 2], [3, 2],
+            [1, 1], [2, 1], [3, 1]
+        ]
         const { index } = requestedHouse
-        const middleHouses = [1, 3, 4, 5, 7]
-        const ownerHousesIndexes = []
+        const requestedHousePosition = gridHouses[index]
+        const ownerHouses = []
         for(let house of this.houses){
             if(house.owner == requestedHouse.owner){
-                ownerHousesIndexes.push(house.index)
+                ownerHouses.push(gridHouses[house.index])
             }
         }
-        for(let i = 1 ; i <= 4 ; i++){
-            if(middleHouses.includes(index)){
-                let doesMatchPlus = ownerHousesIndexes.includes(index + i)
-                let doesMatchMinus = ownerHousesIndexes.includes(index - i)
-                if(doesMatchMinus && doesMatchPlus)
-                    match = true
-            }else{
-                let doesMatchOne = ownerHousesIndexes.includes(index + i)
-                let doesMatchTwo = ownerHousesIndexes.includes(index + i + i)
-                if(doesMatchOne && doesMatchTwo)
-                    match = true
-                
-                doesMatchOne = ownerHousesIndexes.includes(index - i)
-                doesMatchTwo = ownerHousesIndexes.includes(index - i - i)
-                if(doesMatchOne && doesMatchTwo)
-                    match = true
+        ownerHouses.forEach((ownerHouseOne) => {
+            if(ownerHouses. length > 2){
+                ownerHouses.forEach((ownerHouseTwo) => {
+                    if(ownerHouseOne != ownerHouseTwo){
+                        if(requestedHousePosition != ownerHouseOne && requestedHousePosition != ownerHouseTwo){
+                            let yRange = ownerHouseOne[1]-ownerHouseTwo[1]
+                            let xRange = ownerHouseOne[0]-ownerHouseTwo[0]
+                            let m = xRange == 0 ? 1 : yRange/xRange
+                            function checkAllign(pos){
+                                let leftSide = xRange == 0 ? 0 : ownerHouseOne[1]-pos[1]
+                                let rightSide = (ownerHouseOne[0]*m)+(-pos[0]*m)
+                                return leftSide == rightSide
+                            }
+                            match = checkAllign(requestedHousePosition)
+                        }
+                    }
+                })
             }
-        }
+        })
         return match
     }
     
@@ -175,6 +182,7 @@ class Game{
     }
 
     async deleteRoom(){
+        this.gameEnded = true
         return fs.unlink(join(__dirname, '..', 'rooms', `${this.roomID}.html`))
     }
 

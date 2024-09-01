@@ -17,6 +17,8 @@ app.use(express.static(`${__dirname}/public`))
 
 io.on('connection', socket =>{
 
+    socket.emit('availableRooms', gameInstances.map(({gameOwner, roomID, isRoomFull}) => { return {gameOwner, roomID, isRoomFull} }))
+
     // receives request to create a game romm
     socket.on('createRoom', (username) =>{
         const game = new Game(socket.id, username)
@@ -25,6 +27,7 @@ io.on('connection', socket =>{
         .then(() =>{
             socket.emit('redirect', game.getRoomURL())
         })
+        io.emit('availableRooms', gameInstances.map(({gameOwner, roomID, isRoomFull}) => { return {gameOwner, roomID, isRoomFull} }))
     })
 
     // comes from main menu, when player2 asks to join room
@@ -48,6 +51,7 @@ io.on('connection', socket =>{
         const player2 = gameInstance.getPlayer2()
         socket.join(roomID)
         io.to(roomID).emit('joinedRoom', player1.playerName, player2.playerName ?? false)
+        io.emit('availableRooms', gameInstances.map(({gameOwner, roomID, isRoomFull}) => { return {gameOwner, roomID, isRoomFull} }))
     })
 
     socket.on('loadPlayersTurnState', roomID =>{

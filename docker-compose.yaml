@@ -1,8 +1,8 @@
 services:
   api:
-    build: ./api
+    build: ./
     container_name: api
     volumes:
-     - ./api:/app
+     - ./:/app
     ports:
       - 6060:6060

@@ -8,6 +8,16 @@ function verifyField(field){
     return field.value != false
 }
 
+socket.on('availableRooms', (availableRooms) => {
+    availableRooms = availableRooms.filter(room => room.isRoomFull == false)
+    rooms.innerHTML = `<h1>No rooms yet.</h1>`
+    if(availableRooms.length == 0) return rooms.innerHTML = `<h1>No rooms yet.</h1>`
+    availableRooms.forEach(room => {
+        if(room.isRoomFull) return 
+        rooms.innerHTML += `</br><div class="flex justify-between bg-neutral-500 p-3 lg:p-8 text-white text-md lg:text-xl rounded-md"><p>${room.gameOwner}</p></hr><p>${room.roomID}</p></div>`
+    })
+})
+
 function createRoom(e){
     e.preventDefault()
     if(verifyField(username)){
