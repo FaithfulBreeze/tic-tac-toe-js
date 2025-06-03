@@ -3,6 +3,6 @@ services:
     build: ./api
     container_name: api
     volumes:
-     - ./api:/app
+      - ./api:/app
     ports:
-      - 6060:6060
+      - 6000:6000
