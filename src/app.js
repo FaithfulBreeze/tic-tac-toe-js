@@ -111,4 +111,4 @@ function getGameInstance(roomID) {
 
 app.use("/", require("./routes/root"));
 
-httpServer.listen(6000);
+httpServer.listen(8000, () => console.log("Running on port 8000"));
